@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,6 +44,8 @@ import net.zeeraa.novacore.commons.tasks.Task;
 import net.zeeraa.novacore.commons.utils.Rotation;
 import net.zeeraa.novacore.spigot.NovaCore;
 import net.zeeraa.novacore.spigot.abstraction.PlayerDamageReason;
+import net.zeeraa.novacore.spigot.abstraction.VersionIndependantUtils;
+import net.zeeraa.novacore.spigot.abstraction.enums.VersionIndependantSound;
 import net.zeeraa.novacore.spigot.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItem;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItemManager;
@@ -339,7 +340,7 @@ public class MissileWars extends Game implements Listener {
 			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 				player.setGameMode(GameMode.SPECTATOR);
 
-				player.playSound(player.getLocation(), Sound.WITHER_DEATH, 1F, 1F);
+				VersionIndependantUtils.get().playSound(player, player.getLocation(), VersionIndependantSound.WITHER_DEATH, 1F, 1F);
 
 				MissileWarsTeam team = (MissileWarsTeam) NovaCore.getInstance().getTeamManager().getPlayerTeam(player);
 
