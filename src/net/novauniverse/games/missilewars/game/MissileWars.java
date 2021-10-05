@@ -1,7 +1,9 @@
 package net.novauniverse.games.missilewars.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -26,6 +28,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import net.novauniverse.games.missilewars.NovaMissileWars;
+import net.novauniverse.games.missilewars.game.event.MissileWarsGameEndEvent;
+import net.novauniverse.games.missilewars.game.event.MissileWarsGameStartEvent;
 import net.novauniverse.games.missilewars.game.gameobject.GameObject;
 import net.novauniverse.games.missilewars.game.gameobject.GameObjectIndex;
 import net.novauniverse.games.missilewars.game.item.GunBlade;
@@ -82,8 +86,11 @@ public class MissileWars extends Game implements Listener {
 
 	private TeamColor winner;
 
-	public MissileWars(List<PortalLocation> portalLocations) {
+	private boolean useTeamBalancer;
+
+	public MissileWars(List<PortalLocation> portalLocations, boolean useTeamBalancer) {
 		this.portalLocations = portalLocations;
+		this.useTeamBalancer = useTeamBalancer;
 	}
 
 	@Override
@@ -134,6 +141,10 @@ public class MissileWars extends Game implements Listener {
 	@Override
 	public boolean canAttack(LivingEntity attacker, LivingEntity target) {
 		return true;
+	}
+	
+	public boolean isUseTeamBalancer() {
+		return useTeamBalancer;
 	}
 
 	@Override
@@ -252,29 +263,46 @@ public class MissileWars extends Game implements Listener {
 
 	@Override
 	public void onStart() {
-		TeamBalancer.balanceTeams();
+		if (useTeamBalancer) {
+			TeamBalancer.balanceTeams();
+		}
 
-		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+		Bukkit.getServer().getOnlinePlayers().forEach((player) -> {
 			MissileWarsTeam team = (MissileWarsTeam) NovaMissileWars.getInstance().getTeamManager().getPlayerTeam(player);
 
 			if (team != null) {
 				players.add(player.getUniqueId());
+			} else {
+				player.setGameMode(GameMode.SPECTATOR);
 			}
-		}
+		});
 
 		started = true;
 		winCheckTask.start();
 		playerCheckTask.start();
 
-		for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+		Bukkit.getServer().getOnlinePlayers().forEach((player) -> {
 			PlayerUtils.clearPlayerInventory(player);
 
 			givePlayerItems(player);
 
 			setSpawnAndTeleportToTeam(player);
-		}
-		
+		});
+
 		this.sendBeginEvent();
+
+		Map<UUID, TeamColor> playerTeams = new HashMap<UUID, TeamColor>();
+
+		NovaMissileWars.getInstance().getTeamManager().getTeam(TeamColor.RED).getMembers().forEach((uuid) -> {
+			playerTeams.put(uuid, TeamColor.RED);
+		});
+
+		NovaMissileWars.getInstance().getTeamManager().getTeam(TeamColor.GREEN).getMembers().forEach((uuid) -> {
+			playerTeams.put(uuid, TeamColor.GREEN);
+		});
+
+		MissileWarsGameStartEvent e = new MissileWarsGameStartEvent(playerTeams);
+		Bukkit.getServer().getPluginManager().callEvent(e);
 	}
 
 	private void givePlayerItems(Player player) {
@@ -375,6 +403,9 @@ public class MissileWars extends Game implements Listener {
 
 			Bukkit.getServer().broadcastMessage(message);
 		}
+		
+		MissileWarsGameEndEvent e = new MissileWarsGameEndEvent(winner, reason);
+		Bukkit.getPluginManager().callEvent(e);
 	}
 
 	/* -=-=-=-=-= Listeners =-=-=-=-=- */

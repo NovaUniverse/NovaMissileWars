@@ -64,7 +64,6 @@ import net.zeeraa.novacore.spigot.utils.LocationUtils;
 import net.zeeraa.novacore.spigot.utils.PlayerUtils;
 
 public class NovaMissileWars extends JavaPlugin implements Listener {
-	public static final String MAP_DOWNLOAD_URL = "https://zeeraa.net/cdn/missilewars.zip";
 
 	private static NovaMissileWars instance;
 
@@ -103,33 +102,37 @@ public class NovaMissileWars extends JavaPlugin implements Listener {
 
 		mapFile = new File(getDataFolder().getPath() + File.separator + "missilewars");
 
-		if (!mapFile.exists()) {
-			Log.info(this.getName(), "Downloading map form zeeraa.net");
+		String mapDownloadUrl = getConfig().getString("map_download_url");
 
-			File zipFile = new File(getDataFolder().getPath() + File.separator + "missilewars.zip");
+		if (mapFile.exists()) {
+			mapFile.delete();
+		}
 
-			try {
-				if (zipFile.exists()) {
-					zipFile.delete();
-				}
+		Log.info(this.getName(), "Downloading map form " + mapDownloadUrl);
 
-				URL url = new URL(MAP_DOWNLOAD_URL);
-				URLConnection conn = url.openConnection();
-				conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
-				conn.connect();
-				FileUtils.copyInputStreamToFile(conn.getInputStream(), zipFile);
+		File zipFile = new File(getDataFolder().getPath() + File.separator + "missilewars.zip");
 
-				UnzipUtility.unzip(zipFile.getPath(), getDataFolder().getPath());
-
-				Log.info(this.getName(), "Download complete");
-
+		try {
+			if (zipFile.exists()) {
 				zipFile.delete();
-			} catch (IOException e) {
-				Log.fatal(this.getName(), "Failed to download map from zeeraa.net");
-				e.printStackTrace();
-				Bukkit.getPluginManager().disablePlugin(this);
-				return;
 			}
+
+			URL url = new URL(mapDownloadUrl);
+			URLConnection conn = url.openConnection();
+			conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
+			conn.connect();
+			FileUtils.copyInputStreamToFile(conn.getInputStream(), zipFile);
+
+			UnzipUtility.unzip(zipFile.getPath(), getDataFolder().getPath());
+
+			Log.info(this.getName(), "Download complete");
+
+			zipFile.delete();
+		} catch (IOException e) {
+			Log.fatal(this.getName(), "Failed to download map from " + mapDownloadUrl);
+			e.printStackTrace();
+			Bukkit.getServer().shutdown();
+			return;
 		}
 
 		ModuleManager.require(MultiverseManager.class);
@@ -154,7 +157,7 @@ public class NovaMissileWars extends JavaPlugin implements Listener {
 			return;
 		}
 
-		game = new MissileWars(DefaultMapData.PORTAL_LOCATIONS);
+		game = new MissileWars(DefaultMapData.PORTAL_LOCATIONS, getConfig().getBoolean("use_team_balancer"));
 		teamManager = new MissileWarsTeamManager();
 
 		NovaCore.getInstance().setTeamManager(teamManager);
@@ -256,15 +259,15 @@ public class NovaMissileWars extends JavaPlugin implements Listener {
 			PlayerUtils.resetPlayerXP(player);
 			PlayerUtils.fullyHealPlayer(player);
 			player.spigot().respawn();
-			
+
 			MissileWarsTeam team = (MissileWarsTeam) teamManager.getPlayerTeam(player);
-			
+
 			if (team == null) {
 				player.setDisplayName(ChatColor.WHITE + player.getName());
 			} else {
 				player.setDisplayName(team.getColor().getChatColor() + player.getName());
 			}
-			
+
 			new BukkitRunnable() {
 				@Override
 				public void run() {
@@ -297,7 +300,7 @@ public class NovaMissileWars extends JavaPlugin implements Listener {
 								player.sendMessage(ChatColor.YELLOW + "You left your team");
 
 								player.teleport(getSpawnLocation());
-								
+
 								player.setDisplayName(ChatColor.WHITE + player.getName());
 							}
 						}
@@ -306,7 +309,7 @@ public class NovaMissileWars extends JavaPlugin implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent e) {
 		if (e.getEntity() instanceof Player) {
