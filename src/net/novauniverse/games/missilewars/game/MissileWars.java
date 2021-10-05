@@ -142,7 +142,22 @@ public class MissileWars extends Game implements Listener {
 	public boolean canAttack(LivingEntity attacker, LivingEntity target) {
 		return true;
 	}
-	
+
+	@Override
+	public boolean canStart() {
+		boolean canStart = true;
+
+		if (NovaMissileWars.getInstance().getTeamManager().getTeam(TeamColor.RED).getMembers().size() == 0) {
+			canStart = false;
+		}
+
+		if (NovaMissileWars.getInstance().getTeamManager().getTeam(TeamColor.GREEN).getMembers().size() == 0) {
+			canStart = false;
+		}
+
+		return canStart;
+	}
+
 	public boolean isUseTeamBalancer() {
 		return useTeamBalancer;
 	}
@@ -403,7 +418,7 @@ public class MissileWars extends Game implements Listener {
 
 			Bukkit.getServer().broadcastMessage(message);
 		}
-		
+
 		MissileWarsGameEndEvent e = new MissileWarsGameEndEvent(winner, reason);
 		Bukkit.getPluginManager().callEvent(e);
 	}
