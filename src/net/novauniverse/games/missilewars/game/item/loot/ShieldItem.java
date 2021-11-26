@@ -1,5 +1,6 @@
 package net.novauniverse.games.missilewars.game.item.loot;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ import net.zeeraa.novacore.spigot.utils.ItemUtils;
 public class ShieldItem extends CustomItem {
 	@Override
 	protected ItemStack createItemStack(Player player) {
-		return new ItemBuilder(Material.SNOW_BALL).setName("§1Shield").build();
+		return new ItemBuilder(Material.SNOW_BALL).setName(ChatColor.DARK_BLUE + "Shield").build();
 	}
 
 	@Override

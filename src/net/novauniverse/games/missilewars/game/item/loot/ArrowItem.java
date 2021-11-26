@@ -11,6 +11,6 @@ import net.zeeraa.novacore.spigot.utils.ItemBuilder;
 public class ArrowItem extends CustomItem {
 	@Override
 	protected ItemStack createItemStack(Player player) {
-		return new ItemBuilder(Material.ARROW).setName(ChatColor.GOLD + "§eArrow").setAmount(3).build();
+		return new ItemBuilder(Material.ARROW).setName(ChatColor.GOLD + "Arrow").setAmount(3).build();
 	}
 }

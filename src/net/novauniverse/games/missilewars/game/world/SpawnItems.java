@@ -1,6 +1,7 @@
 package net.novauniverse.games.missilewars.game.world;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
@@ -17,7 +18,7 @@ public class SpawnItems {
 		fireball.setVelocity(player.getLocation().getDirection().multiply(2));
 		fireball.setBounce(false);
 		fireball.setIsIncendiary(true);
-		fireball.setCustomName("§6Fireball");
+		fireball.setCustomName(ChatColor.GOLD + "Fireball");
 		fireball.setCustomNameVisible(false);
 		fireball.setShooter(player);
 
@@ -31,7 +32,7 @@ public class SpawnItems {
 		}
 
 		final Snowball shield = player.launchProjectile(Snowball.class);
-		shield.setCustomName("§1Shield");
+		shield.setCustomName(ChatColor.DARK_BLUE + "Shield");
 		shield.setCustomNameVisible(false);
 		shield.setBounce(false);
 

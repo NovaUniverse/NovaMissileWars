@@ -492,7 +492,7 @@ public class MissileWars extends Game implements Listener {
 			MissileWarsTeam killerTeam = (MissileWarsTeam) NovaCore.getInstance().getTeamManager().getPlayerTeam(killer);
 
 			if (killerTeam != null) {
-				e.setDeathMessage(e.getDeathMessage().replace(Pattern.compile(e.getEntity().getName()).pattern(), killerTeam.getColor().getChatColor() + killer.getName() + ChatColor.RESET));
+				e.setDeathMessage(e.getDeathMessage().replace(Pattern.compile(killer.getName()).pattern(), killerTeam.getColor().getChatColor() + killer.getName() + ChatColor.RESET));
 			}
 		}
 
