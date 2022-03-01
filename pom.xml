@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>net.zeeraa.novacore</groupId>
 			<artifactId>novacore-gameengine</artifactId>
-			<version>1.0.0-20211126.012043-2</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

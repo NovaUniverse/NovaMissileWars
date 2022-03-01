@@ -90,6 +90,7 @@ public class MissileWars extends Game implements Listener {
 
 	public MissileWars(List<PortalLocation> portalLocations, boolean useTeamBalancer) {
 		super(NovaMissileWars.getInstance());
+		
 		this.portalLocations = portalLocations;
 		this.useTeamBalancer = useTeamBalancer;
 	}
