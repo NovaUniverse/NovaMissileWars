@@ -1,7 +1,6 @@
 package net.novauniverse.games.missilewars.game.team;
 
-import org.bukkit.ChatColor;
-
+import net.md_5.bungee.api.ChatColor;
 import net.zeeraa.novacore.spigot.teams.Team;
 
 public class MissileWarsTeam extends Team {

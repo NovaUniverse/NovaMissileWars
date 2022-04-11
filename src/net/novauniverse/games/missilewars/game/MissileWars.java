@@ -51,15 +51,15 @@ import net.zeeraa.novacore.spigot.abstraction.VersionIndependantUtils;
 import net.zeeraa.novacore.spigot.abstraction.enums.PlayerDamageReason;
 import net.zeeraa.novacore.spigot.abstraction.enums.VersionIndependantSound;
 import net.zeeraa.novacore.spigot.abstraction.events.VersionIndependantPlayerAchievementAwardedEvent;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.Game;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.GameEndReason;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.elimination.PlayerQuitEliminationAction;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.triggers.GameTrigger;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.triggers.RepeatingGameTrigger;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.triggers.TriggerCallback;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.triggers.TriggerFlag;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItem;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItemManager;
-import net.zeeraa.novacore.spigot.module.modules.game.Game;
-import net.zeeraa.novacore.spigot.module.modules.game.GameEndReason;
-import net.zeeraa.novacore.spigot.module.modules.game.elimination.PlayerQuitEliminationAction;
-import net.zeeraa.novacore.spigot.module.modules.game.triggers.GameTrigger;
-import net.zeeraa.novacore.spigot.module.modules.game.triggers.RepeatingGameTrigger;
-import net.zeeraa.novacore.spigot.module.modules.game.triggers.TriggerCallback;
-import net.zeeraa.novacore.spigot.module.modules.game.triggers.TriggerFlag;
 import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
 import net.zeeraa.novacore.spigot.tasks.SimpleTask;
 import net.zeeraa.novacore.spigot.teams.TeamManager;
@@ -355,7 +355,7 @@ public class MissileWars extends Game implements Listener {
 
 		player.setDisplayName(team.getColor().getChatColor() + player.getName());
 
-		NetherBoardScoreboard.getInstance().setPlayerNameColor(player, team.getColor().getChatColor());
+		NetherBoardScoreboard.getInstance().setPlayerNameColorBungee(player, team.getColor().getChatColor());
 
 		player.setBedSpawnLocation(location, true);
 		player.teleport(location);

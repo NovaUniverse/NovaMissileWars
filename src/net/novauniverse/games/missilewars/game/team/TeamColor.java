@@ -1,6 +1,6 @@
 package net.novauniverse.games.missilewars.game.team;
 
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 
 public enum TeamColor {
 	RED(ChatColor.RED, "Red"), GREEN(ChatColor.GREEN, "Green");

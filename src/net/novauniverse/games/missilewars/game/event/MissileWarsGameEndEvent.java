@@ -4,7 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 import net.novauniverse.games.missilewars.game.team.TeamColor;
-import net.zeeraa.novacore.spigot.module.modules.game.GameEndReason;
+import net.zeeraa.novacore.spigot.gameengine.module.modules.game.GameEndReason;
 
 public class MissileWarsGameEndEvent extends Event {
 	private static final HandlerList HANDLERS_LIST = new HandlerList();
