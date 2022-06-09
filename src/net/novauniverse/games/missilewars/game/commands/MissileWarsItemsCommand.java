@@ -22,7 +22,7 @@ public class MissileWarsItemsCommand extends NovaCommand {
 
 		setPermission("novauniverse.games.missilewars.command.missilewarsitems");
 		setPermissionDefaultValue(PermissionDefault.OP);
-		setUseage("/missilewarsitems");
+		setUsage("/missilewarsitems");
 	}
 
 	@Override
