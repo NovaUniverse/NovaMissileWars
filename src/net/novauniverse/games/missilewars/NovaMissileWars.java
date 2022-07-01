@@ -163,7 +163,7 @@ public class NovaMissileWars extends JavaPlugin implements Listener {
 		NovaCore.getInstance().setTeamManager(teamManager);
 
 		GameManager.getInstance().setUseTeams(true);
-		GameManager.getInstance().setShowDeathMessaage(true);
+		GameManager.getInstance().setShowDeathMessage(true);
 		GameManager.getInstance().loadGame(game);
 
 		try {
