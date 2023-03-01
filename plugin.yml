@@ -4,3 +4,5 @@ description: Novauniverse Missile Wars
 version: 1.0
 depend: [NovaCore, NovaCoreGameEngine]
 softdepend: [NovaGamesTarget]
+
+authors: [Zeeraa, NovaUniverse]
