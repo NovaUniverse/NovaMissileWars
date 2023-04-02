@@ -25,8 +25,6 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
-
 import net.novauniverse.games.missilewars.NovaMissileWars;
 import net.novauniverse.games.missilewars.game.event.MissileWarsGameEndEvent;
 import net.novauniverse.games.missilewars.game.event.MissileWarsGameStartEvent;
@@ -90,7 +88,7 @@ public class MissileWars extends Game implements Listener {
 
 	public MissileWars(List<PortalLocation> portalLocations, boolean useTeamBalancer) {
 		super(NovaMissileWars.getInstance());
-		
+
 		this.portalLocations = portalLocations;
 		this.useTeamBalancer = useTeamBalancer;
 	}
@@ -454,6 +452,8 @@ public class MissileWars extends Game implements Listener {
 
 				Location location = e.getRespawnLocation();
 
+				Log.trace(player.getName() + " should respawn at " + location);
+
 				location.setYaw(rotation.getYaw());
 				location.setPitch(rotation.getPitch());
 
@@ -500,7 +500,6 @@ public class MissileWars extends Game implements Listener {
 
 		e.getEntity().setFallDistance(0F);
 		e.getEntity().setFireTicks(0);
-		e.getEntity().setVelocity(new Vector(0, 0, 0));
 
 		new BukkitRunnable() {
 			@Override
@@ -508,7 +507,6 @@ public class MissileWars extends Game implements Listener {
 				e.getEntity().spigot().respawn();
 				e.getEntity().setFallDistance(0F);
 				e.getEntity().setFireTicks(0);
-				e.getEntity().setVelocity(new Vector(0, 0, 0));
 			}
 		}.runTaskLater(NovaMissileWars.getInstance(), 2L);
 	}
