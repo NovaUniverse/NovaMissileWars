@@ -58,7 +58,7 @@ import net.zeeraa.novacore.spigot.gameengine.module.modules.game.triggers.Trigge
 import net.zeeraa.novacore.spigot.gameengine.module.modules.game.triggers.TriggerFlag;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItem;
 import net.zeeraa.novacore.spigot.module.modules.customitems.CustomItemManager;
-import net.zeeraa.novacore.spigot.module.modules.scoreboard.NetherBoardScoreboard;
+import net.zeeraa.novacore.spigot.module.modules.scoreboard.NovaScoreboardManager;
 import net.zeeraa.novacore.spigot.tasks.SimpleTask;
 import net.zeeraa.novacore.spigot.teams.TeamManager;
 import net.zeeraa.novacore.spigot.utils.LocationUtils;
@@ -353,7 +353,7 @@ public class MissileWars extends Game implements Listener {
 
 		player.setDisplayName(team.getColor().getChatColor() + player.getName());
 
-		NetherBoardScoreboard.getInstance().setPlayerNameColorBungee(player, team.getColor().getChatColor());
+		NovaScoreboardManager.getInstance().setPlayerNameColor(player, team.getTeamColor());
 
 		player.setBedSpawnLocation(location, true);
 		player.teleport(location);
